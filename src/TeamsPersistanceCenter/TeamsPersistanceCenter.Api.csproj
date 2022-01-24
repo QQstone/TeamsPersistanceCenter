@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
@@ -25,6 +26,11 @@
     <Folder Include="Infrastructure\ActionFilters\" />
     <Folder Include="Infrastructure\Security\" />
     <Folder Include="Infrastructure\OData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamsPersistanceCenter.Managers\TeamsPersistanceCenter.Managers.csproj" />
+    <ProjectReference Include="..\TeamsPersistanceCenter.Models\TeamsPersistanceCenter.Models.csproj" />
   </ItemGroup>
 
 </Project>

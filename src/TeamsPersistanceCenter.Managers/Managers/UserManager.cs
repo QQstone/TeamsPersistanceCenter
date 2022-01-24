@@ -1,38 +1,72 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamsPersistanceCenter.Managers.Interfaces;
 using TeamsPersistanceCenter.Models;
+using TeamsPersistanceCenter.Models.BaseModels;
+using TeamsPersistanceCenter.Models.Contexts;
 
 namespace TeamsPersistanceCenter.Managers.Managers
 {
     public class UserManager : IUserManager
     {
-        public Task<IQueryable<User>> CreateUserAsync(User user)
+        private readonly ILogger<UserManager> _logger;
+        private readonly TeamsPersistanceContext _dbContext;
+        public async Task<IQueryable<User>> CreateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Add(user);
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (SqlUniqueConstraintViolationError)
+            {
+                _logger.LogError($"Create User fail");
+            }
+            return _dbContext.Users.Where(e => e.Code == user.Code);
         }
 
-        public Task<IQueryable<User>> DeactiveUserAsync(string code)
+        public async Task<IQueryable<User>> DeactiveUserAsync(string code)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await GetUserByCode(code).FirstOrDefaultAsync();
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Delete User fail");
+            }
+            return GetUsers();
         }
 
         public IQueryable<User> GetUserByCode(string code)
         {
-            throw new NotImplementedException();
-        }
+            return GetUsers().Where(user => user.Code == code);
 
-        public IQueryable<User> GetUsers()
-        {
-            throw new NotImplementedException();
         }
+        public IQueryable<User> GetUsers() => _dbContext.Users;
 
-        public Task<IQueryable<User>> UpdateUserAsync(User user)
+
+        public async Task<IQueryable<User>> UpdateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            var ExitingUser = await _dbContext.Users.Where(u => u.Code == user.Code).AsNoTracking().FirstOrDefaultAsync();
+            try
+            {
+                ExitingUser.Name = user.Name;
+                ExitingUser.Num = user.Num;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Update User fail");
+            }
+            return _dbContext.Users.Where(u => u.Code == user.Code);
         }
     }
 }
