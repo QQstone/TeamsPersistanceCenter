@@ -16,6 +16,11 @@ namespace TeamsPersistanceCenter.Managers.Managers
     {
         private readonly ILogger<AdministratorManager> _logger;
         private readonly TeamsPersistanceContext _dbContext;
+        public AdministratorManager(TeamsPersistanceContext dbContext, ILogger<AdministratorManager> logger)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
+        }
         public async Task<IQueryable<Administrator>> CreateAdminAsync(Administrator administrator)
         {
             _dbContext.Admins.Add(administrator);

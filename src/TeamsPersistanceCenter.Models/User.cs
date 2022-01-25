@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TeamsPersistanceCenter.Models
 {
 
+    [Table("User")]
     public class User
     {
         [Key]

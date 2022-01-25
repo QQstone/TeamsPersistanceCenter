@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TeamsPersistanceCenter.Api</name>
+    </assembly>
+    <members>
+        <member name="P:TeamsPersistanceCenter.Api.Controllers.BaseODataApiController`1.DbContext">
+            <summary>
+            DB Context
+            </summary>
+        </member>
+        <member name="P:TeamsPersistanceCenter.Api.Controllers.BaseODataApiController`1.Logger">
+            <summary>
+            Logger
+            </summary>
+        </member>
+        <member name="T:TeamsPersistanceCenter.Api.Infrastructure.ActionFilters.ValidateModelStateAttribute">
+            <summary>
+            Checks whether <see cref="P:Microsoft.AspNetCore.Mvc.ControllerBase.ModelState">ModelState</see> is valid before executing the action.
+            If the <c>ModelState</c> is not valid, returns an HTTP 400 response containing a <see cref="T:Microsoft.AspNetCore.Mvc.ValidationProblemDetails" /> body.
+            </summary>
+        </member>
+        <member name="M:TeamsPersistanceCenter.Api.Infrastructure.ActionFilters.ValidateModelStateAttribute.GetErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            Gets a dictionary of error messages from the supplied <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/>.
+            Note: This logic is similar to <see cref="T:Microsoft.AspNetCore.Mvc.SerializableError"/> class. The <see cref="T:Microsoft.AspNetCore.Mvc.SerializableError"/> class
+            ignores <see cref="P:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError.Exception"/> properties and only returns error messages from
+            <see cref="P:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError.ErrorMessage"/> properties.  However, OData controller model binding errors are contained
+            in <see cref="P:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError.Exception"/> properties. This method returns <see cref="P:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError.Exception"/> error message,
+            if <see cref="P:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError.ErrorMessage"/> is empty.
+            </summary>
+            <param name="modelState">The <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/> to collect errors from.</param>
+            <returns>A dictionary of error messages</returns>
+        </member>
+        <member name="M:TeamsPersistanceCenter.Api.Infrastructure.ActionFilters.ValidateModelStateAttribute.FixupModelStateErrors(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            When model binding fails, such as because of property name mismatch, the model state
+            contains a <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelError"/> entry with an empty <c>ErrorMessage</c> property.
+            In this case, the actual error message is in the <c>Exception</c> property instead.
+            However, default serialization does not include the exception messages in the response.
+            This method replaces all such entries so that the <c>Exception.ErrorMessage</c> is copied over to
+            the <c>ErrorMessage</c> property.
+            </summary>
+            <param name="modelState">A new model state with the error message fix applied.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TeamsPersistanceCenter.Api.Infrastructure.DbContext.ConfigureDbContext">
+            <summary>
+            Configure DB Contexts
+            </summary>
+        </member>
+        <member name="M:TeamsPersistanceCenter.Startup.GetEntitySetName``1">
+            <summary>
+            Define entity set name based on controller name
+            </summary>
+            <typeparam name="TController"></typeparam>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -16,6 +16,10 @@ namespace TeamsPersistanceCenter.Managers.Managers
     {
         private readonly ILogger<UserManager> _logger;
         private readonly TeamsPersistanceContext _dbContext;
+        public UserManager(TeamsPersistanceContext dbContext, ILogger<UserManager> logger){
+            _dbContext = dbContext;
+            _logger = logger;
+        }
         public async Task<IQueryable<User>> CreateUserAsync(User user)
         {
             _dbContext.Users.Add(user);

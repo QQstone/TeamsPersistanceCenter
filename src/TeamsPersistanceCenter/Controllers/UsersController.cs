@@ -57,6 +57,12 @@ namespace TeamsPersistanceCenter.Api.Controllers
             }
         }
 
+        [EnableQueryIfSuccess]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IQueryable<User>>> Put([FromODataUri] string code, [FromBody] User user)
         {
             try

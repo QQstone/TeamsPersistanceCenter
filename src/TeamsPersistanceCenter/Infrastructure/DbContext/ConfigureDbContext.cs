@@ -24,12 +24,12 @@ namespace TeamsPersistanceCenter.Api.Infrastructure.DbContext
 
         private static void ConfigureGlobalDbContextOptions(IServiceProvider serviceProvider, DbContextOptionsBuilder options)
         {
-            var connectionString = Configuration.GetConnectionString("SegmentationResultsConnection");
+            var connectionString = Configuration.GetConnectionString("TeamsPersisitanceConnection");
             Debug.Assert(!string.IsNullOrEmpty(connectionString));
             var cb = new SqlConnectionStringBuilder(connectionString);
             if(!cb.IntegratedSecurity && string.IsNullOrEmpty(cb.Password))
             {
-                var password = Configuration["SegmentationResultsPassword"];
+                var password = Configuration["TeamsPersisitancePassword"];
                 cb.Password = password;
             }
             options.UseSqlServer(cb.ToString(), sqlOptions =>
