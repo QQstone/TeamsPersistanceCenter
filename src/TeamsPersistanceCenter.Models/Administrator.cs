@@ -14,6 +14,6 @@ namespace TeamsPersistanceCenter.Models
         [Key]
         public string Id { get; set; }
         public string Email { get; set; }
-        public int IsValid { get; set; }
+        public byte IsValid { get; set; }
     }
 }

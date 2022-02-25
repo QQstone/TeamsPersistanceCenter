@@ -26,8 +26,8 @@ namespace TeamsPersistanceCenter.Models.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsValid")
-                        .HasColumnType("int");
+                    b.Property<byte>("IsValid")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 

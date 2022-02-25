@@ -17,6 +17,7 @@ namespace TeamsPersistanceCenter.Models.Contexts
         
         public DbSet<User> Users { get; set; }
         public DbSet<Administrator> Admins { get; set; }
+        public DbSet<AssignNumber> AssignNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
