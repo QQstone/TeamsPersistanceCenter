@@ -83,6 +83,8 @@ namespace TeamsPersistanceCenter
             });
             services.AddDbContexts(Configuration);
             services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IAdministratorManager, AdministratorManager>();
+            services.AddScoped<IAssignNumberManager, AssignNumberManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +117,9 @@ namespace TeamsPersistanceCenter
             builder.EnableLowerCamelCase();
             builder.EntitySet<User>(GetEntitySetName<UsersController>());
 
-            var entityType = builder.EntitySet<User>(GetEntitySetName<UsersController>()).EntityType;
+            builder.EntitySet<Administrator>(GetEntitySetName<AdminsController>());
+            builder.EntitySet<AssignNumber>(GetEntitySetName<AssignNumberController>());
+
             return builder.GetEdmModel();
         }
         /// <summary>

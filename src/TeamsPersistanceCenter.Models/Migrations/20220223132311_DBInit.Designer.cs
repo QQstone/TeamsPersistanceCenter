@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamsPersistanceCenter.Models.Contexts;
 
 namespace TeamsPersistanceCenter.Models.Migrations
 {
     [DbContext(typeof(TeamsPersistanceContext))]
-    partial class TeamsPersistanceContextModelSnapshot : ModelSnapshot
+    [Migration("20220223132311_DBInit")]
+    partial class DBInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,19 +34,6 @@ namespace TeamsPersistanceCenter.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Administrator");
-                });
-
-            modelBuilder.Entity("TeamsPersistanceCenter.Models.AssignNumber", b =>
-                {
-                    b.Property<string>("Num")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<byte>("isUsed")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("Num");
-
-                    b.ToTable("AssignNumber");
                 });
 
             modelBuilder.Entity("TeamsPersistanceCenter.Models.User", b =>
