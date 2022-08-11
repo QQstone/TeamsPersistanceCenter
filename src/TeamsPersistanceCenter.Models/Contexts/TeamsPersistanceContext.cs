@@ -21,12 +21,16 @@ namespace TeamsPersistanceCenter.Models.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Administrator>()
+                .Property(e => e.IsValid)
+                .HasDefaultValue(1);
             base.OnModelCreating(modelBuilder);
+
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            BeforeSaving();
+            //BeforeSaving();
             try
             {
                 return base.SaveChanges(acceptAllChangesOnSuccess);
@@ -42,7 +46,7 @@ namespace TeamsPersistanceCenter.Models.Contexts
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            BeforeSaving();
+            //BeforeSaving();
             try
             {
                 var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -57,16 +61,16 @@ namespace TeamsPersistanceCenter.Models.Contexts
             }
         }
 
-        private void BeforeSaving()
-        {
-            //var entries = ChangeTracker
-            //    .Entries()
-            //    .Where(e => e.Entity is IDbEntityBase && (e.State == EntityState.Modified));
+        //private void BeforeSaving()
+        //{
+        //    var entries = ChangeTracker
+        //        .Entries()
+        //        .Where(e => e.Entity is IDbEntityBase && (e.State == EntityState.Modified));
 
-            //foreach (var entityEntry in entries)
-            //{
-            //    ((IDbEntityBase)entityEntry.Entity).RecordLastUpdated = DateTime.UtcNow;
-            //}
-        }
+        //    foreach (var entityEntry in entries)
+        //    {
+        //        ((IDbEntityBase)entityEntry.Entity).RecordLastUpdated = DateTime.UtcNow;
+        //    }
+        //}
     }
 }

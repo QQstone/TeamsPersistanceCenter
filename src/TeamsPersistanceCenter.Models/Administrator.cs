@@ -12,6 +12,7 @@ namespace TeamsPersistanceCenter.Models
     public class Administrator
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Email { get; set; }
         public byte IsValid { get; set; }

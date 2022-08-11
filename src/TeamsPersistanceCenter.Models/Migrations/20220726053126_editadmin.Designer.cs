@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamsPersistanceCenter.Models.Contexts;
 
 namespace TeamsPersistanceCenter.Models.Migrations
 {
     [DbContext(typeof(TeamsPersistanceContext))]
-    partial class TeamsPersistanceContextModelSnapshot : ModelSnapshot
+    [Migration("20220726053126_editadmin")]
+    partial class editadmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +28,6 @@ namespace TeamsPersistanceCenter.Models.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("IsValid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
-                        .HasDefaultValue((byte)1);
 
                     b.HasKey("Id");
 

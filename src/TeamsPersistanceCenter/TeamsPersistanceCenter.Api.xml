@@ -14,6 +14,14 @@
             Logger
             </summary>
         </member>
+        <member name="M:TeamsPersistanceCenter.Api.Controllers.UsersController.Put(System.String,TeamsPersistanceCenter.Models.User)">
+            <summary>
+            Update User with specified code.
+            </summary>
+            <param name="key">The specified code</param>
+            <param name="user">User detail</param>
+            <returns>The newly updated member.</returns>
+        </member>
         <member name="T:TeamsPersistanceCenter.Api.Infrastructure.ActionFilters.ValidateModelStateAttribute">
             <summary>
             Checks whether <see cref="P:Microsoft.AspNetCore.Mvc.ControllerBase.ModelState">ModelState</see> is valid before executing the action.
@@ -47,6 +55,11 @@
         <member name="T:TeamsPersistanceCenter.Api.Infrastructure.DbContext.ConfigureDbContext">
             <summary>
             Configure DB Contexts
+            </summary>
+        </member>
+        <member name="T:TeamsPersistanceCenter.Api.Infrastructure.OData.Configuration.EntitySetConfigurationBase`2">
+            <summary>
+            Base class for ODAta Entity configuration
             </summary>
         </member>
         <member name="M:TeamsPersistanceCenter.Startup.GetEntitySetName``1">

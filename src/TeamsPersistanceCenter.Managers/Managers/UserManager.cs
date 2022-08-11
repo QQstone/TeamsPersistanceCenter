@@ -44,7 +44,7 @@ namespace TeamsPersistanceCenter.Managers.Managers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Delete User fail");
+                _logger.LogError($"Delete User fail", ex);
             }
             return GetUsers();
         }
@@ -62,13 +62,12 @@ namespace TeamsPersistanceCenter.Managers.Managers
             var ExitingUser = await _dbContext.Users.Where(u => u.Code == user.Code).AsNoTracking().FirstOrDefaultAsync();
             try
             {
-                ExitingUser.Name = user.Name;
-                ExitingUser.Num = user.Num;
+                _dbContext.Users.Update(user);
                 await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Update User fail");
+                _logger.LogError($"Update User fail", ex);
             }
             return _dbContext.Users.Where(u => u.Code == user.Code);
         }

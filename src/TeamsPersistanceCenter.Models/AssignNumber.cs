@@ -13,6 +13,6 @@ namespace TeamsPersistanceCenter.Models
     {
         [Key]
         public string Num { get; set; }
-        public byte isUsed { get; set; }
+        public byte IsUsed { get; set; }
     }
 }

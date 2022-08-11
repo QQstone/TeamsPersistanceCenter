@@ -25,7 +25,7 @@ namespace TeamsPersistanceCenter.Managers.Managers
         {
             var an = new AssignNumber();
             an.Num = num;
-            an.isUsed = 0;
+            an.IsUsed = 0;
             _dbContext.AssignNumbers.Add(an);
             try
             {
@@ -45,7 +45,7 @@ namespace TeamsPersistanceCenter.Managers.Managers
             var an = await _dbContext.AssignNumbers.FirstOrDefaultAsync(n => n.Num == num);
             try
             {
-                an.isUsed = 1;
+                an.IsUsed = 1;
                 await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)

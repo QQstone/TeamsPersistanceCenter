@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,15 +35,16 @@ namespace TeamsPersistanceCenter.Api.Controllers
             return Ok(_administratorManager.GetAdmins());
         }
 
-        //[EnableQueryIfSuccess]
-        //[ProducesResponseType(typeof(Administrator), StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IQueryable> GetAdminByEmail(string email)
-        //{
-        //    var result = _administratorManager.GetAdminByEmail(email);
-        //    return result == null ?
-        //        Problem($"Failed to return user list") : Ok(result);
-        //}
+        [EnableQueryIfSuccess]
+        [HttpGet("GetAdminByEmail")]
+        [ProducesResponseType(typeof(Administrator), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IQueryable> GetAdminByEmail(string email)
+        {
+            var result = _administratorManager.GetAdminByEmail(email);
+            return result == null ?
+                Problem($"Failed to return user list") : Ok(result);
+        }
 
         [EnableQueryIfSuccess]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -51,8 +53,6 @@ namespace TeamsPersistanceCenter.Api.Controllers
         {
             try
             {
-                administrator.Id = new Guid().ToString();
-                administrator.IsValid = (byte)ValidStatus.Valid;
                 var result = await _administratorManager.CreateAdminAsync(administrator);
                 return StatusCode(StatusCodes.Status201Created, result);
             }
@@ -62,19 +62,19 @@ namespace TeamsPersistanceCenter.Api.Controllers
             }
         }
 
-        [EnableQueryIfSuccess]
+        [EnableQuery]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IQueryable<Administrator>>> Put([FromODataUri] string email, [FromBody] Administrator administrator)
+        public async Task<ActionResult<IQueryable<Administrator>>> Put([FromODataUri] string key, [FromBody] Administrator administrator)
         {
             try
             {
-                if (email != administrator.Email)
+                if (key != administrator.Id)
                 {
-                    return Problem($"email is not natching", null, StatusCodes.Status400BadRequest);
+                    return Problem($"not natching", null, StatusCodes.Status400BadRequest);
                 }
                 var result = await _administratorManager.UpdateAdminAsync(administrator);
                 if (result == null)
@@ -88,6 +88,20 @@ namespace TeamsPersistanceCenter.Api.Controllers
             {
                 return Problem($"{ex.Message}", null, StatusCodes.Status400BadRequest);
             }
+        }
+
+        [EnableQueryIfSuccess]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IQueryable<User>>> Delete(string key)
+        {
+            var user = DbContext.Admins.Where(u => u.Id == key).FirstOrDefault();
+            if (user == null)
+            {
+                return Problem($"Failed to find a user with code : {key}", "User code", StatusCodes.Status404NotFound);
+            }
+            var res = await _administratorManager.DeactiveAdminAsync(key);
+            return StatusCode(StatusCodes.Status202Accepted, res);
         }
     }
 }

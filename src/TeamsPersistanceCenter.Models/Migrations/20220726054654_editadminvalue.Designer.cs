@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamsPersistanceCenter.Models.Contexts;
 
 namespace TeamsPersistanceCenter.Models.Migrations
 {
     [DbContext(typeof(TeamsPersistanceContext))]
-    partial class TeamsPersistanceContextModelSnapshot : ModelSnapshot
+    [Migration("20220726054654_editadminvalue")]
+    partial class editadminvalue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

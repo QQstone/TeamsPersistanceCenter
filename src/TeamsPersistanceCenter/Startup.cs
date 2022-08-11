@@ -50,6 +50,7 @@ namespace TeamsPersistanceCenter
                     option.Count().Filter().Expand().Select().OrderBy().SetMaxTop(50);
                     option.AddRouteComponents("odata/v1", GetEdmModel());
                 });
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamsPersistanceCenter", Version = "v1" });
@@ -82,6 +83,7 @@ namespace TeamsPersistanceCenter
                 //});
             });
             services.AddDbContexts(Configuration);
+            services.AddHttpClient();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IAdministratorManager, AdministratorManager>();
             services.AddScoped<IAssignNumberManager, AssignNumberManager>();
@@ -119,6 +121,11 @@ namespace TeamsPersistanceCenter
 
             builder.EntitySet<Administrator>(GetEntitySetName<AdminsController>());
             builder.EntitySet<AssignNumber>(GetEntitySetName<AssignNumberController>());
+
+            var entityType = builder.EntitySet<Administrator>(GetEntitySetName<AdminsController>()).EntityType;
+            entityType.Collection.Function(nameof(AdminsController.GetAdminByEmail))
+                .ReturnsCollectionFromEntitySet<Administrator>("Admins")
+                .Parameter<string>("email");
 
             return builder.GetEdmModel();
         }

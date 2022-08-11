@@ -35,6 +35,7 @@ namespace TeamsPersistanceCenter.Api.Infrastructure.DbContext
             options.UseSqlServer(cb.ToString(), sqlOptions =>
             {
                 sqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName);
+                sqlOptions.EnableRetryOnFailure();
             });
         }
     }

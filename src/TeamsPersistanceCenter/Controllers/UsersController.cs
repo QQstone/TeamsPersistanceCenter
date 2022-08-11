@@ -11,8 +11,6 @@ using TeamsPersistanceCenter.Models;
 
 namespace TeamsPersistanceCenter.Api.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class UsersController : BaseODataApiController<UsersController>
     {
         private readonly IUserManager _userManager;
@@ -57,19 +55,26 @@ namespace TeamsPersistanceCenter.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update User with specified code.
+        /// </summary>
+        /// <param name="key">The specified code</param>
+        /// <param name="user">User detail</param>
+        /// <returns>The newly updated member.</returns>
         [EnableQueryIfSuccess]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IQueryable<User>>> Put([FromODataUri] string code, [FromBody] User user)
+        //[HttpPut]
+        public async Task<ActionResult<IQueryable<User>>> Put([FromODataUri] string key, [FromBody] User user)
         {
             try
             {
-                if(code != user.Code)
+                if(key != user.Code)
                 {
-                    return Problem($"code is not natching", null, StatusCodes.Status400BadRequest);
+                    return Problem($"code is not matching", null, StatusCodes.Status400BadRequest);
                 }
                 var result = await _userManager.UpdateUserAsync(user);
                 if(result == null)
@@ -82,6 +87,21 @@ namespace TeamsPersistanceCenter.Api.Controllers
             {
                 return Problem($"{ex.Message}", null, StatusCodes.Status400BadRequest);
             }
+        }
+
+        [EnableQueryIfSuccess]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpDelete]
+        public async Task<ActionResult<IQueryable<User>>> Delete(string key)
+        {
+            var user = DbContext.Users.Where(u => u.Code == key).FirstOrDefault();
+            if (user == null)
+            {
+                return Problem($"Failed to find a user with code : {key}", "User code", StatusCodes.Status404NotFound);
+            }
+            var res = await _userManager.DeactiveUserAsync(key);
+            return StatusCode(StatusCodes.Status202Accepted, res);
         }
     }
 }
