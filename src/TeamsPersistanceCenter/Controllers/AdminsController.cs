@@ -93,7 +93,7 @@ namespace TeamsPersistanceCenter.Api.Controllers
         [EnableQueryIfSuccess]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IQueryable<User>>> Delete(string key)
+        public async Task<ActionResult<IQueryable<Administrator>>> Delete([FromODataUri] string key)
         {
             var user = DbContext.Admins.Where(u => u.Id == key).FirstOrDefault();
             if (user == null)
